@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  {%- include head.html -%}
+  <body>
+    <div class="content-area">
+      {%- include navbar.html -%}
+      <div class="main-area">
+        <div class="nav-padded-area top-padded-area">
+          {%- include header.html -%}
+          <main>
+            {{ content }}
+          </main>
+        </div>
+        {%- include footer.html -%}
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+# General
+
+title: Danylo Malyuta
+subtitle: Research Works
+author: Danylo Malyuta
+email: danylo@malyuta.name
+baseurl: ""
+url: "http://localhost:4000"
+
+# Build settings
+
+markdown: kramdown
+
+# Contents
+
+include:
+  - _pages

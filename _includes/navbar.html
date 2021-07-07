@@ -1,0 +1,15 @@
+<div class="site-nav">
+  <nav>
+    <ul>
+      {%- for page in site.pages -%}
+      {%- if page.title -%}
+      <li>
+        <a href="{{ page.url | relative_url }}">
+          {{ page.title | escape }}
+        </a>
+      </li>
+      {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
+</div>

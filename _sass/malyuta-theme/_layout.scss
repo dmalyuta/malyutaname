@@ -1,0 +1,82 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: $base-font-family;
+}
+
+.content-area {
+    margin: 0;
+    padding: 0;
+    clear: both;
+    height: 100%;
+    width: $content-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.site-nav {
+    float: left;
+    position: fixed;
+    width: $navbar-width;
+    height: 100%;
+    border: 1px solid black;
+    border-style: none solid none none;
+    padding-top: $margin-top;
+}
+
+.site-nav ul {
+    margin: 0;
+}
+
+.main-area {
+    margin-left: $navbar-width;
+    // overflow: auto;
+}
+
+.main-area .nav-padded-area,
+.site-footer .nav-padded-area {
+    margin-left: $navbar-margin;
+}
+
+.main-area .top-padded-area {
+    padding-top: $margin-top;
+}
+
+.site-footer {
+    height: $footer-height;
+    border: 1px solid black;
+    border-style: solid none none none;
+    margin-top: 50px;
+}
+
+.site-footer span {
+    font-size: 12px;
+    color: $grey;
+}
+
+.footer-valign {
+    line-height: $footer-height;
+}
+
+a.site-title {
+    font-size: 40px;
+    font-variant: small-caps;
+    font-weight: 300;
+    text-decoration: none;
+    color: black;
+    padding-right: 10px;
+
+    .subtitle {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+}
+
+a.site-title:hover {
+    background-color: $yellow;
+}
