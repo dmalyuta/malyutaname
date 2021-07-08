@@ -1,11 +1,28 @@
 <div class="site-nav">
   <nav>
     <ul>
-      {%- for page in site.pages -%}
-      {%- if page.title -%}
+      <!-- Homepage -->
+      {%- for node in site.pages -%}
+      {%- if node.title and node.url == "/" -%}
       <li>
-        <a href="{{ page.url | relative_url }}">
-          {{ page.title | escape }}
+        <a href="{{ node.url | relative_url }}"
+           {% if page.url == node.url %}
+           class="active"
+           {% endif %}>
+          <i class="fas fa-bullhorn"></i> {{ node.title | escape }}
+        </a>
+      </li>
+      {%- endif -%}
+      {%- endfor -%}
+      <!-- All other pages -->
+      {%- for node in site.pages -%}
+      {%- if node.title and node.url != "/" -%}
+      <li>
+        <a href="{{ node.url | relative_url }}"
+           {% if page.url == node.url %}
+           class="active"
+           {% endif %}>
+          {{ node.title | escape }}
         </a>
       </li>
       {%- endif -%}

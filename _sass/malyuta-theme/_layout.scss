@@ -5,8 +5,24 @@ html, body {
     padding: 0;
 }
 
+html {
+    overflow-y: scroll;
+}
+
 body {
     font-family: $base-font-family;
+}
+
+main {
+    margin-top: $main-vsep;
+}
+
+*::-moz-selection {
+    background-color: $yellow;
+}
+
+*::selection {
+    background-color: $yellow;
 }
 
 .content-area {
@@ -24,6 +40,7 @@ body {
     position: fixed;
     width: $navbar-width;
     height: 100%;
+    background-color: white;
     border: 1px solid black;
     border-style: none solid none none;
     padding-top: $margin-top;
@@ -31,6 +48,44 @@ body {
 
 .site-nav ul {
     margin: 0;
+    padding: 0;
+    list-style-type:none;
+}
+
+.site-nav li {
+    margin: 0;
+    padding: 0;
+}
+
+.site-nav a {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: right;
+    padding-right: $navbar-margin;
+    border: 1px solid transparent;
+    border-style: solid none solid none;
+}
+
+.site-nav a.active {
+    font-weight: 500;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+    border: 1px solid $grey;
+    border-style: solid none solid none;
+}
+
+.site-nav li a {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.site-nav .fa-bullhorn {
+    margin-right: 5px;
 }
 
 .main-area {
@@ -51,7 +106,7 @@ body {
     height: $footer-height;
     border: 1px solid black;
     border-style: solid none none none;
-    margin-top: 50px;
+    margin-top: $main-vsep;
 }
 
 .site-footer span {
@@ -79,4 +134,173 @@ a.site-title {
 
 a.site-title:hover {
     background-color: $yellow;
+}
+
+.video {
+    margin: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    clear: both;
+    display: block;
+}
+
+.bib-title {
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 50px;
+    margin-top: 50px;
+
+    span {
+        padding: 5px 10px 5px 10px;
+    }
+
+    span.submitted {
+        background-color: $green;
+        color: white;
+    }
+
+    span.journals {
+        background-color: $red;
+        color: white;
+    }
+
+    span.conferences {
+        background-color: $blue;
+        color: white;
+    }
+}
+
+.bib-title.first {
+    margin-top: 0;
+}
+
+.bibentry {
+    width: 100%;
+    clear: both;
+    margin-bottom: 20px;
+}
+
+.bibentry-counter {
+    float: left;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.bibentry-content {
+    overflow: auto;
+}
+
+.bibentry-text {
+    clear: both;
+    margin-bottom: 10px;
+}
+
+.bibentry-links {
+    height: 30px;
+}
+
+.bibentry-link-entry {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    height: 30px;
+    color: $grey;
+    margin-right: 10px;
+}
+
+.bibentry-link-entry-text {
+    vertical-align: middle;
+    line-height: 30px;
+    margin-right: 5px;
+}
+
+.bibentry-link-entry a.arxiv,
+.bibentry-link-entry a.openreview {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;;
+    background-color: #b31b1bff;
+    color: white;
+    text-decoration: none;
+    font-weight: 400;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.bibentry-link-entry a.openreview {
+    background-color: #8b1d17ff;
+    font-weight: 600;
+
+    .openreview-net {
+        font-weight: 300;
+        color: #9c9b9bff;
+    }
+}
+
+.bibentry-link-entry a.arxiv:hover,
+.bibentry-link-entry a.openreview:hover {
+    color: $yellow;
+}
+
+.bibentry-link-entry a.github,
+.bibentry-link-entry a.researchgate {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px !important;
+    color: black;
+    text-decoration: none;
+
+    i {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        vertical-align: middle;
+        font-size: 30px;
+        line-height: 30px !important;
+    }
+}
+
+.bibentry-link-entry a.researchgate {
+    color: #22aabeff;
+}
+
+.fa-github-square:before,
+.fa-researchgate:before {
+    display:block;
+    margin-top:-1px;
+}
+
+.bibentry-link-entry a.github:hover {
+    color: $blue;
+}
+
+.bibentry-link-entry a.researchgate:hover {
+    color: $darkblue;
+}
+
+.bibentry-award {
+    height: 30px;
+    margin-top: 10px;
+}
+
+.bibentry-award-textarea {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 30px;
+    margin-right: 5px;
+    background-color: $darkblue;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    i {
+        margin-right: 5px;
+        color: $yellow;
+    }
+}
+
+.my-email {
+    color: $blue;
+    font-weight: 400;
 }

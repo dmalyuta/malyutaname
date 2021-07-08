@@ -13,5 +13,4 @@ markdown: kramdown
 
 # Contents
 
-include:
-  - _pages
+include: ['_pages']
