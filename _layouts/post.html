@@ -2,6 +2,17 @@
 layout: default
 ---
 
+<!-- Navigation bar -->
+<div class="article-navigation-container">
+  <!-- <div class="article-navigation-spacer"></div> -->
+  <div class="article-navigation-div">
+    <span class="article-nav"><i class="far fa-compass"></i> Navigation</span>
+    <ul>
+      <!-- Post sections get populated here -->
+    </ul>
+  </div>
+</div>
+
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
@@ -69,6 +80,76 @@ layout: default
          eqref.innerHTML = equation_number;
        })
      })
+
+     // Move post navigation bar to appropriate position
+     let navbar = document.querySelector('.article-navigation-container');
+     let content_area = document.querySelector('.nav-padded-area.top-padded-area');
+     content_area.appendChild(navbar);
+
+     // Populate navbar with document sections
+     function add_nav_item(list, item, classes="") {
+       let text = item.innerText;
+       let id = item.id;
+       let navitem = '<li class="'+classes+'"><a '
+       navitem += 'href="#'+id+'" class="internal">';
+       navitem += text+'</a></li>';
+       list.innerHTML += navitem;
+     }
+     let navlist = navbar.querySelector('ul');
+     let all_navitems = new Array();
+     document.querySelectorAll('article h2').forEach(item => {
+       add_nav_item(navlist, item);
+       all_navitems.push(navlist.lastChild);
+
+       let elems = $(item).nextUntil('article h2');
+       for (let i=0; i<elems.length; i++) {
+         let subitem = elems[i].querySelector('.article-subnav-item');
+         if (subitem) {
+           // Create an ID
+           let text = subitem.innerText;
+           let id = text.replace(/\W/g,'_');
+           subitem.id = id;
+           subitem.parentElement.style.margin = "0";
+           subitem.parentElement.style.padding = "0";
+           subitem.parentElement.style.position = "absolute";
+
+           add_nav_item(navlist, subitem, "subnavitem");
+           all_navitems.push(navlist.lastChild);
+         }
+       }
+     });
+
+     // Highlight current section in the navbar
+     all_navitems.reverse();
+     let navitem_count = all_navitems.length;
+     $(window).on('load resize scroll', function() {
+       let windowMidpoint = $(window).height()/2;
+       for (let i=0; i<navitem_count; i++) {
+         let navitem = all_navitems[i];
+         let id = navitem.querySelector('a').href.split('#')[1];
+         let section_element = document.querySelector('#'+id);
+         var thisTop = $(section_element).offset().top - $(window).scrollTop();
+         if (thisTop < windowMidpoint) {
+           // Remove any existing "current"
+           $(".article-navigation-div ul li").each(function () {
+             $(this).removeClass("current");
+           });
+           // Set "current"
+           let actual_navitem = navlist.children.item(navitem_count-1-i);
+           $(actual_navitem).addClass("current");
+           console.log(navitem);
+           break;
+         }
+       }
+     })
+
+     // Adjust post width to fit navbar
+     let navbar_width = $('.article-navigation-div').width();
+     let article_width = $('main').width();
+     console.log(navbar_width);
+     console.log(article_width);
+     article_width -= navbar_width;
+     $('main').css("width", article_width);
    })
   </script>
 </article>

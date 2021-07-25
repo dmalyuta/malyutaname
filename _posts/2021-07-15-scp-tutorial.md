@@ -58,7 +58,7 @@ nonconvex. Importantly, note that the trajectory evolves on a "normalized" time
 interval $[0,1]$. This means that the user has to convert their problem's
 "absolute" time to this normalized time convention. {% endlatexmm %}
 
-## Why the SCP Toolbox?
+## Why Another Toolbox?
 
 {% latexmm %}The SCP Toolbox joins a growing family of tools for solving
 nonconvex trajectory problems. These include
@@ -432,6 +432,8 @@ previously mentioned parser interface to convert problem
 \eqref{eq:cost}--\eqref{eq:end} into the template form
 \eqref{eq:ocpcost}--\eqref{eq:ocpend}.
 
+{% navitem Optimal Control Problem Implementation %}
+
 The purpose of the SCP Toolbox parser in `/tmp/scp_traj_opt/parser/` is to
 provide a set of high-level functions for defining
 \eqref{eq:ocpcost}--\eqref{eq:ocpend} given your application-specific
@@ -679,6 +681,8 @@ constrained at both endpoints).
 
 {% endlatexmm %}
 
+{% navitem Solver Setup %}
+
 Congraultions - at this point we are done using the parser to convert the
 Dubin's car optimal control problem \eqref{eq:cost}--\eqref{eq:end} to the
 generic form \eqref{eq:ocpcost}--\eqref{eq:ocpend}. The next step is to define
@@ -773,6 +777,8 @@ The second line solves the optimal control problem, and returns the solution
 (`sol`) and a history of intermediate iterates of the algorithm (`history`). On
 my four year old Dell XPS 13 laptop, the whole solution process takes less than
 one second. The output in the Julia REPL should look like this:
+
+{% navitem Results %}
 
 ```
 k  | status   | vd    | vs    | vbc   | J         | ΔJ %  | Δx    | Δu    | Δp    | δ     | dyn | ηx    | ηu    | ηp
@@ -939,8 +945,9 @@ framework for how you can use the toolbox in your own personal projects. This
 amounts to creating a new Julia package that holds your own trajectory
 generation problems, and placing that package alongside the SCP Toolbox. We
 creates this Julia package in this tutorial, and you can find it on
-[GitHub](https://github.com/dmalyuta/scp_new_problem) for your future reference, or as a "template" to get started on
-implementing your own new problems!
+[GitHub](https://github.com/dmalyuta/scp_new_problem) for your future
+reference, or as a "template" to get started on implementing your own new
+problems!
 
 I'd like to say a big thank you for taking the time to read this post. Happy
 problem solving!
