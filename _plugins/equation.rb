@@ -30,7 +30,8 @@ module Jekyll
   end
 
   def self.render_eqref(reference)
-    output = "(<a href=\"#\" class=\""+reference+" eqreflink internal\">"
+    output = "(<a href=\"#"+reference+"\" "
+    output += "class=\""+reference+" eqreflink internal\">"
     output += "<b>??</b>"
     output += "</a>)"
     output

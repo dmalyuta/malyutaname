@@ -14,6 +14,9 @@ body {
 }
 
 main {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
   margin-top: $main-vsep;
   vertical-align: top;
   display: inline-block;
@@ -27,7 +30,6 @@ main {
   white-space: nowrap;
 
   .article-navigation-div {
-    position: fixed;
     max-width: 150px;
 
     .article-nav {

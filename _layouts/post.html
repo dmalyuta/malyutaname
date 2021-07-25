@@ -72,6 +72,8 @@ layout: default
      document.querySelectorAll('.eqlabel').forEach(item => {
        let classes = item.className.split(' ');
        let class_match = classes.find(value => /^eq:/.test(value));
+       item.id = class_match;
+
        let equation_number = classes.find(value => /^equation-/.test(value));
        equation_number = equation_number.split('-')[1];
        let selector = ('.eqreflink.'+class_match).replace(/:/, '\\:');
@@ -119,6 +121,30 @@ layout: default
        }
      });
 
+     // Adjust post width to fit navbar
+     let navbar_width = $('.article-navigation-div').width();
+     let article_width = $('main').width();
+     article_width -= navbar_width;
+     $('main').css("width", article_width);
+
+     // Navbar emulate fixed-y
+     let navbar_div = $('.article-navigation-container');
+     let navbar_margin_top = parseInt(navbar_div.css("margin-top"));
+     $(window).on('load scroll resize', function() {
+       let window_top = $(window).scrollTop();
+       let new_navbar_margin_top = navbar_margin_top+window_top;
+       navbar_div.css("margin-top", new_navbar_margin_top);
+       // See if current window is "too short" for the update
+       let navbar_bot = navbar_div.offset().top+navbar_div.height();
+       let article_bot = $("article").offset().top+$("article").height();
+       let dy_adjust = article_bot-navbar_bot;
+       console.log(navbar_bot, article_bot, dy_adjust);
+       if (dy_adjust<0) {
+         new_navbar_margin_top += dy_adjust;
+         navbar_div.css("margin-top", new_navbar_margin_top);
+       }
+     })
+
      // Highlight current section in the navbar
      all_navitems.reverse();
      let navitem_count = all_navitems.length;
@@ -137,19 +163,10 @@ layout: default
            // Set "current"
            let actual_navitem = navlist.children.item(navitem_count-1-i);
            $(actual_navitem).addClass("current");
-           console.log(navitem);
            break;
          }
        }
      })
-
-     // Adjust post width to fit navbar
-     let navbar_width = $('.article-navigation-div').width();
-     let article_width = $('main').width();
-     console.log(navbar_width);
-     console.log(article_width);
-     article_width -= navbar_width;
-     $('main').css("width", article_width);
    })
   </script>
 </article>
