@@ -130,7 +130,7 @@ layout: default
      // Navbar emulate fixed-y
      let navbar_div = $('.article-navigation-container');
      let navbar_margin_top = parseInt(navbar_div.css("margin-top"));
-     $(window).on('load scroll resize', function() {
+     $(window).on('load scroll touchmove resize', function() {
        let window_top = $(window).scrollTop();
        let new_navbar_margin_top = navbar_margin_top+window_top;
        navbar_div.css("margin-top", new_navbar_margin_top);
@@ -148,7 +148,7 @@ layout: default
      // Highlight current section in the navbar
      all_navitems.reverse();
      let navitem_count = all_navitems.length;
-     $(window).on('load resize scroll', function() {
+     $(window).on('load scroll touchmove resize', function() {
        let windowMidpoint = $(window).height()/2;
        for (let i=0; i<navitem_count; i++) {
          let navitem = all_navitems[i];
