@@ -1,0 +1,147 @@
+---
+layout: page
+title: Blog
+---
+
+<p>
+  Welcome to my blog, where I write about control engineering, mathematical
+  optimization, and computer programming. My goal is to make each post a
+  self-contained, and hopefully interesting, recipe for "how to do <i>X</i>".
+</p>
+
+<!-- Navigation panel -->
+
+<!-- This Liquid code creates arrays of blog post dates, titles, and excerpts -->
+{%- assign all_dates = '' | split: '' -%}
+{%- assign all_titles = '' | split: '' -%}
+{%- assign all_excerpts = '' | split: '' -%}
+{%- assign all_urls = '' | split: '' -%}
+{%- for post in site.posts -%}
+{%- assign this_year = post.date | date: "%b %-d, %Y" -%}
+{%- assign this_title = post.title -%}
+{%- assign this_excerpt = post.excerpt | replace: "\n", " " -%}
+{%- assign this_url = post.url | relative_url -%}
+{%- assign all_dates = all_dates | push: this_year -%}
+{%- assign all_titles = all_titles | push: this_title -%}
+{%- assign all_excerpts = all_excerpts | push: this_excerpt -%}
+{%- assign all_urls = all_urls | push: this_url -%}
+{%- endfor -%}
+{%- assign all_dates = all_dates | jsonify -%}
+{%- assign all_titles = all_titles | jsonify -%}
+{%- assign all_excerpts = all_excerpts | jsonify -%}
+{%- assign all_urls = all_urls | jsonify -%}
+
+<script type="text/javascript">
+ // Extract the years
+ const dates = {{ all_dates }};
+ let years = [];
+ function get_year(date) {
+   return parseInt(date.match(/[0-9]+$/));
+ }
+ for (let i=0; i<dates.length; i++) {
+   let this_year = get_year(dates[i]);
+   years.push(this_year);
+ }
+ const min_year = Math.min(...years);
+ const max_year = Math.max(...years);
+ var current_year = max_year;
+
+ // Create the navigation panel
+ function make_year(year) {
+   // Creates a list element for a given year
+   document.write('<li><a href="" class="year-selector">');
+   document.write(year);
+   document.write("</li></a>");
+ }
+ document.write('<div class="blog-year-nav-panel">Posts by year: ');
+ document.write('<ul class="blog-year-nav-panel-entries">');
+ let posts = {};
+ posts["All"] = [];
+ for (let year=max_year; year>=min_year; year--) {
+   make_year(year);
+   posts[year] = [];
+ }
+ make_year("All");
+ document.write("</ul>");
+ document.write("</div>");
+
+ // Organize all posts into a hash
+ const titles = {{ all_titles }};
+ const excerpts = {{ all_excerpts }};
+ const urls = {{ all_urls }};
+ function make_post_hash(i) {
+   let post = {};
+   post.date = dates[i];
+   post.title = titles[i];
+   post.excerpt = excerpts[i];
+   post.url = urls[i];
+   return post;
+ }
+ for (let i=0; i<dates.length; i++) {
+   let post = make_post_hash(i);
+   let year = get_year(dates[i]);
+   posts[year].push(post);
+   posts["All"].push(post);
+ }
+
+ // Highlighter for currently selected year
+ function highlight_year(year) {
+   document.querySelectorAll('.year-selector').forEach(item => {
+     if (item.textContent == year) {
+       item.classList.add("selected-year");
+     } else {
+       item.classList.remove("selected-year");
+     }
+   })
+ }
+</script>
+
+<!-- Posts list -->
+
+<div class="posts-list">
+  <!-- This is where the post list is populated by JS -->
+</div>
+
+<script type="text/javascript">
+ // Post list populator
+ function show_posts(div, year) {
+   highlight_year(year);
+   let posts_list = '<ul class="post-list">';
+   let year_posts = posts[year];
+   for (let i=0; i<year_posts.length; i++) {
+     posts_list += '<li>';
+     posts_list += '<h3>';
+     // Title
+     posts_list += '<a class="post-title-link" href="'+year_posts[i].url+'">';
+     posts_list += year_posts[i].title;
+     posts_list += '</a>';
+     // Date
+     posts_list += '<span class="post-date">';
+     posts_list += '<i class="far fa-calendar-alt"></i> '+year_posts[i].date;
+     posts_list += '</span>';
+     posts_list += '</h3>';
+     excerpt = year_posts[i].excerpt.replace(/([\.!?])\<\/p\>\s$/,
+                                             "... <a class=\"continue-reading-link\" \
+href=\""+year_posts[i].url+"\">Continue reading <i class=\"fas fa-book-open\"></i></a>");
+     posts_list += excerpt;
+     posts_list += '</li>';
+   }
+   posts_list += '</ul>';
+   div.innerHTML = posts_list;
+ }
+
+ // Callback for when user selects which year to show posts from
+ document.addEventListener("DOMContentLoaded", function(_event) {
+   var post_content = document.querySelector('.posts-list');
+   show_posts(post_content, max_year);
+
+   document.querySelectorAll('.year-selector').forEach(item => {
+     item.addEventListener('click', event => {
+       event.preventDefault();
+       let year = item.textContent;
+       show_posts(post_content, year);
+     }, false)
+   })
+
+ });
+</script>

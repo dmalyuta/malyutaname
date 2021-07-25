@@ -1,27 +1,74 @@
 ---
 layout: default
 ---
+
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
+        <i class="far fa-calendar-alt"></i> {{ page.date | date: date_format }}
       </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}</p>
+    </p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
+    <!-- Main body -->
     {{ content }}
+
+    <!-- Footnotes -->
+    <div class="post-footnotes">
+      <div class="footnote-separator"></div>
+      <div class="footnote-text-container">
+      </div>
+    </div>
   </div>
 
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
-
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+
+  <script>
+   document.addEventListener("DOMContentLoaded", event => {
+     // Make non-internal links open in new tab
+     document.querySelectorAll('article a').forEach(item => {
+       if (!item.classList.contains('internal')) {
+         item.setAttribute("target", "_blank");
+         item.setAttribute("rel", "noopener noreferrer");
+       }
+     })
+
+     // Insert the footnotes
+     let number_footnotes = document.querySelectorAll('.footnote-mark').length;
+     let footnote_content = "";
+     let footnote_container = document.querySelector('.footnote-text-container');
+     for (let i=1; i<=number_footnotes; i++) {
+       let this_footnote = document.querySelector('#footnote-'+i);
+       footnote_container.appendChild(this_footnote);
+       this_footnote.style.display = "block";
+     }
+
+     // Set the figure reference numbers (map label to number)
+     document.querySelectorAll('span.figref a').forEach(item => {
+       let fig_id = item.getAttribute("href");
+       let figure = document.querySelector(fig_id);
+       // The next line assumes that the second element of the class list is "figure-#"
+       let figure_number = figure.classList[1].split("-")[1];
+       item.innerHTML = figure_number;
+     })
+
+     // Set equation references
+     document.querySelectorAll('.eqlabel').forEach(item => {
+       let classes = item.className.split(' ');
+       let class_match = classes.find(value => /^eq:/.test(value));
+       let equation_number = classes.find(value => /^equation-/.test(value));
+       equation_number = equation_number.split('-')[1];
+       let selector = ('.eqreflink.'+class_match).replace(/:/, '\\:');
+       document.querySelectorAll(selector).forEach(eqref => {
+         let eqref_classes = eqref.className.split(' ');
+         eqref.innerHTML = equation_number;
+       })
+     })
+   })
+  </script>
 </article>

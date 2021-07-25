@@ -1,306 +1,567 @@
 html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 body {
-    font-family: $base-font-family;
+  font-family: $base-font-family;
 }
 
 main {
-    margin-top: $main-vsep;
+  margin-top: $main-vsep;
 }
 
 *::-moz-selection {
-    background-color: $yellow;
+  background-color: $yellow;
 }
 
 *::selection {
-    background-color: $yellow;
+  background-color: $yellow;
+}
+
+article {
+  text-align: justify;
+}
+
+article a {
+  text-decoration: none;
+  color: #4285f4;
+}
+
+article a:hover {
+  color: $red;
+}
+
+figure.highlight *::-moz-selection {
+  background-color: #545454;
+}
+
+figure.highlight *::selection {
+  background-color: #545454;
 }
 
 .content-area {
-    margin: 0;
-    padding: 0;
-    clear: both;
-    height: 100%;
-    width: $content-width;
-    margin-left: auto;
-    margin-right: auto;
+  margin: 0;
+  padding: 0;
+  clear: both;
+  height: 100%;
+  width: $content-width;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .site-nav {
-    float: left;
-    position: fixed;
-    width: $navbar-width;
-    height: 100%;
-    background-color: white;
-    border: 1px solid black;
-    border-style: none solid none none;
-    padding-top: $margin-top;
+  float: left;
+  position: fixed;
+  width: $navbar-width;
+  height: 100%;
+  background-color: white;
+  border: 1px solid black;
+  border-style: none solid none none;
+  padding-top: $margin-top;
+  z-index: 100;
 }
 
 .site-nav ul {
-    margin: 0;
-    padding: 0;
-    list-style-type:none;
+  margin: 0;
+  padding: 0;
+  list-style-type:none;
 }
 
 .site-nav li {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .site-nav a {
-    display: block;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-align: right;
-    padding-right: $navbar-margin;
-    border: 1px solid transparent;
-    border-style: solid none solid none;
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: right;
+  padding-right: $navbar-margin;
+  border: 1px solid transparent;
+  border-style: solid none solid none;
 }
 
 .site-nav a.active {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .site-nav a:hover,
 .site-nav a.active {
-    border: 1px solid $grey;
-    border-style: solid none solid none;
+  border: 1px solid $grey;
+  border-style: solid none solid none;
+}
+
+.site-nav li.blog-button a {
+  background-color: #F2F2F2;
 }
 
 .site-nav li a {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-    font-weight: 300;
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  font-weight: 300;
 }
 
-.site-nav .fa-bullhorn {
-    margin-right: 5px;
+.site-nav .fas {
+  margin-left: 10px;
+  width: 20px;
 }
 
 .main-area {
-    margin-left: $navbar-width;
-    // overflow: auto;
+  margin-left: $navbar-width;
+  // overflow: auto;
 }
 
 .main-area .nav-padded-area,
 .site-footer .nav-padded-area {
-    margin-left: $navbar-margin;
+  margin-left: $navbar-margin;
 }
 
 .main-area .top-padded-area {
-    padding-top: $margin-top;
+  padding-top: $margin-top;
 }
 
 .site-footer {
-    height: $footer-height;
-    border: 1px solid black;
-    border-style: solid none none none;
-    margin-top: $main-vsep;
+  height: $footer-height;
+  border: 1px solid black;
+  border-style: solid none none none;
+  margin-top: $main-vsep;
 }
 
 .site-footer span {
-    font-size: 12px;
-    color: $grey;
+  font-size: 12px;
+  color: $grey;
 }
 
 .footer-valign {
-    line-height: $footer-height;
+  line-height: $footer-height;
 }
 
 a.site-title {
-    font-size: 40px;
-    font-variant: small-caps;
-    font-weight: 300;
-    text-decoration: none;
-    color: black;
-    padding-right: 10px;
+  font-size: 40px;
+  font-variant: small-caps;
+  font-weight: 300;
+  text-decoration: none;
+  color: black;
+  padding-right: 10px;
 
-    .subtitle {
-        font-size: 20px;
-        margin-left: 10px;
-    }
+  .subtitle {
+    font-size: 20px;
+    margin-left: 10px;
+  }
 }
 
 a.site-title:hover {
-    background-color: $yellow;
+  background-color: $yellow;
 }
 
 .video {
-    margin: 40px;
-    margin-left: auto;
-    margin-right: auto;
-    clear: both;
-    display: block;
+  margin: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+  display: block;
 }
 
 .bib-title {
-    display: block;
-    font-size: 20px;
-    font-weight: 400;
-    margin-bottom: 50px;
-    margin-top: 50px;
+  display: block;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 50px;
+  margin-top: 50px;
 
-    span {
-        padding: 5px 10px 5px 10px;
-    }
+  span {
+    padding: 5px 10px 5px 10px;
+  }
 
-    span.submitted {
-        background-color: $green;
-        color: white;
-    }
+  span.submitted {
+    background-color: $green;
+    color: white;
+  }
 
-    span.journals {
-        background-color: $red;
-        color: white;
-    }
+  span.journals {
+    background-color: $red;
+    color: white;
+  }
 
-    span.conferences {
-        background-color: $blue;
-        color: white;
-    }
+  span.conferences {
+    background-color: $blue;
+    color: white;
+  }
 }
 
 .bib-title.first {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .bibentry {
-    width: 100%;
-    clear: both;
-    margin-bottom: 20px;
+  width: 100%;
+  clear: both;
+  margin-bottom: 20px;
 }
 
 .bibentry-counter {
-    float: left;
-    height: 100%;
-    margin-right: 10px;
+  float: left;
+  height: 100%;
+  margin-right: 10px;
 }
 
 .bibentry-content {
-    overflow: auto;
+  overflow: auto;
 }
 
 .bibentry-text {
-    clear: both;
-    margin-bottom: 10px;
+  clear: both;
+  margin-bottom: 10px;
 }
 
 .bibentry-links {
-    height: 30px;
+  height: 30px;
 }
 
 .bibentry-link-entry {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    height: 30px;
-    color: $grey;
-    margin-right: 10px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  height: 30px;
+  color: $grey;
+  margin-right: 10px;
 }
 
 .bibentry-link-entry-text {
-    vertical-align: middle;
-    line-height: 30px;
-    margin-right: 5px;
+  vertical-align: middle;
+  line-height: 30px;
+  margin-right: 5px;
 }
 
 .bibentry-link-entry a.arxiv,
 .bibentry-link-entry a.openreview {
-    display: inline-block;
-    height: 30px;
-    line-height: 30px;;
-    background-color: #b31b1bff;
-    color: white;
-    text-decoration: none;
-    font-weight: 400;
-    padding-left: 5px;
-    padding-right: 5px;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;;
+  background-color: #b31b1bff;
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .bibentry-link-entry a.openreview {
-    background-color: #8b1d17ff;
-    font-weight: 600;
+  background-color: #8b1d17ff;
+  font-weight: 600;
 
-    .openreview-net {
-        font-weight: 300;
-        color: #9c9b9bff;
-    }
+  .openreview-net {
+    font-weight: 300;
+    color: #9c9b9bff;
+  }
 }
 
 .bibentry-link-entry a.arxiv:hover,
 .bibentry-link-entry a.openreview:hover {
-    color: $yellow;
+  color: $yellow;
 }
 
 .bibentry-link-entry a.github,
 .bibentry-link-entry a.researchgate {
-    display: inline-block;
-    height: 30px;
-    line-height: 30px !important;
-    color: black;
-    text-decoration: none;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px !important;
+  color: black;
+  text-decoration: none;
 
-    i {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-        vertical-align: middle;
-        font-size: 28px;
-        line-height: 28px !important;
-    }
+  i {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    font-size: 28px;
+    line-height: 28px !important;
+  }
 }
 
 .bibentry-link-entry a.researchgate {
-    color: #22aabeff;
+  color: #22aabeff;
 }
 
 .fa-github-square:before,
 .fa-researchgate:before {
-    display:block;
-    margin-top:-2px;
+  display:block;
+  margin-top:-2px;
 }
 
 .bibentry-link-entry a.github:hover {
-    color: $blue;
+  color: $blue;
 }
 
 .bibentry-link-entry a.researchgate:hover {
-    color: $darkblue;
+  color: $darkblue;
 }
 
 .bibentry-award {
-    height: 30px;
-    margin-top: 10px;
+  height: 30px;
+  margin-top: 10px;
 }
 
 .bibentry-award-textarea {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 30px;
-    margin-right: 5px;
-    background-color: $darkblue;
-    color: white;
-    padding-left: 10px;
-    padding-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 30px;
+  margin-right: 5px;
+  background-color: $darkblue;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
 
-    i {
-        margin-right: 5px;
-        color: $yellow;
-    }
+  i {
+    margin-right: 5px;
+    color: $yellow;
+  }
 }
 
 .my-email {
-    color: $blue;
-    font-weight: 400;
+  color: $blue;
+  font-weight: 400;
+}
+
+.recent-posts-heading {
+  display: block;
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 50px;
+  margin-top: 50px;
+
+  span {
+    padding: 5px 10px 5px 10px;
+    background-color: $yellow;
+  }
+}
+
+ul.post-list {
+  margin: 0;
+  padding: 0;
+  list-style-type:none;
+
+  li {
+    margin: 0;
+    padding: 0;
+
+    h3 {
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    a.post-title-link {
+      text-decoration: none;
+      font-weight: 600;
+      color: $blue;
+      padding: 5px 5px 5px 5px;
+    }
+
+    a.post-title-link:hover {
+      background-color: $grey;
+      color: white;
+    }
+
+    .post-date {
+      color: $grey;
+      font-size: 15px;
+      font-weight: normal;
+      margin-left: 10px;
+    }
+
+    a.continue-reading-link {
+      text-decoration: none;
+      color: $blue;
+    }
+
+    a.continue-reading-link:hover {
+      color: $red;
+    }
+  }
+}
+
+.blog-year-nav-panel {
+  text-align: center;
+  color: $grey;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+ul.blog-year-nav-panel-entries {
+  margin: 0;
+  padding: 0;
+  list-style-type:none;
+  display: inline-block;
+
+  li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    a {
+      text-decoration: none;
+      color: white;
+      background-color: $red;
+      padding: 5px 10px 5px 10px;
+    }
+
+    a.selected-year {
+      background-color: $blue;
+    }
+
+    a:hover {
+      background-color: $darkblue;
+    }
+  }
+}
+
+.post-header {
+  h1.post-title {
+    font-size: 25px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .post-meta {
+    margin: 0;
+    margin-bottom: 30px;
+  }
+
+  time.dt-published {
+    color: $grey;
+    font-size: 15px;
+    font-weight: normal;
+    margin: 0;
+  }
+}
+
+figure.highlight {
+  margin: 0;
+
+  pre {
+    overflow-x: auto;
+
+    code {
+      display: inline-block;
+      padding: 13px 0 13px 20px;
+    }
+  }
+
+  table.rouge-table {
+    margin-left: -7px;
+  }
+
+  td.gutter.gl {
+    color: #f8f8f2;
+    border: 1px solid #5e6154;
+    border-style: none solid none none;
+    padding-right: 10px;
+    padding-left: 0;
+  }
+
+  td.code {
+    padding-left: 20px;
+  }
+}
+
+div.highlighter-rouge pre.highlight {
+  background-color: #eef !important;
+  padding: 13px 0 13px 20px;
+}
+
+article h2 {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 5px 10px 5px 10px;
+  background-color: #F2F2F2;
+}
+
+article li {
+  margin-bottom: 10px;
+}
+
+article ul {
+  margin-top: 10px;
+}
+
+.footnote-separator {
+  background-color: black;
+  height: 1px;
+  display: inline-block;
+  width: 30%;
+}
+
+.footnote-text-all {
+  display: none;
+}
+
+.footnote-separator {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.footnote-text-container {
+  font-size: 15px;
+
+  .footnote-number {
+    margin-right: 5px;
+  }
+}
+
+.footnote-text-container .footnote-text-all {
+  margin-bottom: 10px;
+}
+
+.figure-container {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.figure-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.figure-caption {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  font-size: 15px;
+
+  .figure-number {
+    font-weight: bold;
+  }
+}
+
+.katex-display {
+  font-size: 14px;
+}
+
+.inline-equation {
+  font-size: 0.9em;
+}
+
+blockquote {
+  border: 5px solid $grey;
+  margin-left: 0;
+  padding-left: 40px;
+  border-style: none none none solid;
 }

@@ -4,26 +4,40 @@ layout: default
 
 <div class="home">
   <div class="home-content">
+
     {{ content }}
+
+    <!-- Recent posts -->
+    {% assign post_counter = 0 %}
+    {%- if site.posts.size > 0 -%}
+    <h2 class="recent-posts-heading"><span>Recent Posts</span></h2>
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+      {% assign post_counter = post_counter | plus:1 %}
+      <li>
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <h3>
+          <a class="post-title-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+          <span class="post-date">
+            <i class="far fa-calendar-alt"></i> {{ post.date | date: date_format }}
+          </span>
+        </h3>
+        {% assign post_excerpt = post.excerpt | replace: "\n", " " %}
+        <script type="text/javascript">
+          var excerpt = `{{ post_excerpt }}`;
+          excerpt = excerpt.replace(/([\.!?])\<\/p\>\s$/,
+                                    "... <a class=\"continue-reading-link\" \
+href=\"{{ post.url | relative_url }}\">Continue reading <i class=\"fas fa-book-open\"></i></a>");
+          document.write(excerpt);
+        </script>
+      </li>
+      {% if post_counter==site.number_recent_posts %}
+      {% break %}
+      {% endif %}
+      {%- endfor -%}
+    </ul>
+    {%- endif -%}
   </div>
 </div>
-
-<!-- {%- if site.posts.size > 0 -%} -->
-<!-- <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2> -->
-<!-- <ul class="post-list"> -->
-<!--   {%- for post in site.posts -%} -->
-<!--   <li> -->
-<!--     {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%} -->
-<!--     <span class="post-meta">{{ post.date | date: date_format }}</span> -->
-<!--     <h3> -->
-<!--       <a class="post-link" href="{{ post.url | relative_url }}"> -->
-<!--         {{ post.title | escape }} -->
-<!--       </a> -->
-<!--     </h3> -->
-<!--     {%- if site.show_excerpts -%} -->
-<!--     {{ post.excerpt }} -->
-<!--     {%- endif -%} -->
-<!--   </li> -->
-<!--   {%- endfor -%} -->
-<!-- </ul> -->
-<!-- {%- endif -%} -->

@@ -10,7 +10,11 @@ url: "http://localhost:4000"
 # Build settings
 
 markdown: kramdown
+highlighter: rouge
+syntax_highlighter_opts:
+  css_class: 'highlight'
 
 # Contents
 
 include: ['_pages']
+number_recent_posts: 3
