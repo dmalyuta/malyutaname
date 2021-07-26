@@ -25,11 +25,13 @@ main {
 }
 
 .article-navigation-container {
-  margin-top: $main-vsep;
+  margin-top: calc(#{$main-vsep} + 20px);
+  position: absolute;
   display: inline-block;
   white-space: nowrap;
   transition-timing-function: ease;
-  transition: 0.5s;
+  transition-duration: 0.5s;
+  transition-delay: 0.2s;
 
   .article-navigation-div {
     max-width: 150px;
@@ -510,6 +512,7 @@ ul.blog-year-nav-panel-entries {
     font-size: 25px;
     font-weight: 500;
     margin-bottom: 10px;
+    margin-top: 20px;
   }
 
   .post-meta {

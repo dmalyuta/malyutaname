@@ -5,6 +5,9 @@
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
 
+  <!-- Site title (in tabs, etc.) -->
+  <title>{{ site.title | escape }} {{ site.subtitle | escape }}</title>
+
   <!-- KaTeX support -->
   {% if page.katex %}
   <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css"
