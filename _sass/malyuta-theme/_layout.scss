@@ -28,6 +28,8 @@ main {
   margin-top: $main-vsep;
   display: inline-block;
   white-space: nowrap;
+  transition-timing-function: ease;
+  transition: 0.5s;
 
   .article-navigation-div {
     max-width: 150px;
