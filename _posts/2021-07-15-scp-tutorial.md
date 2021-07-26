@@ -6,7 +6,8 @@ categories: optimization tooling
 katex: true
 ---
 
-The *Sequential Convex Programming (SCP) Toolbox* provides a suite of fast
+The [*Sequential Convex Programming (SCP)
+Toolbox*](https://github.com/dmalyuta/scp_traj_opt) provides a suite of fast
 nonlinear optimal control algorithms for solving nonconvex trajectory
 generation tasks. These algorithms have been applied on problems for
 organizations such as NASA, SpaceX, Blue Origin, and Masten Space Systems. This
