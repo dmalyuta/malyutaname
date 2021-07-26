@@ -11,19 +11,21 @@ nonlinear optimal control algorithms for solving nonconvex trajectory
 generation tasks. These algorithms have been applied on problems for
 organizations such as NASA, SpaceX, Blue Origin, and Masten Space Systems. This
 post shows you how to get started with the SCP Toolbox by solving a simple
-obstacle avoidance problem with Dubin's car model.
+obstacle avoidance problem for Dubin's car model.
 
 The SCP Toolbox is the result of a **[comprehensive tutorial
 paper](https://arxiv.org/abs/2106.09125)** that recently appeared in
-preprint. It covers the complete algorithmic and practical details of the
-low-level solvers that power the SCP Toolbox. In this post, I will just scratch
-the surface by providing a simple and concrete implementation of a trajectory
-generation problem. Keep in mind that this example does not reveal the full
-generality of the toolbox.
+preprint. The paper covers the complete algorithmic and practical details of
+the low-level solvers that power the SCP Toolbox. In this post, I will just
+scratch the surface by providing a simple and concrete implementation of a
+trajectory generation problem. Keep in mind that this example does not reveal
+the full generality of the toolbox. If you are interested to learn more about
+SCP algorithms, I would really recommend that you supplement reading this post
+with the tutorial paper.
 
 ## Purpose of the SCP Toolbox
 
-The goal of the SCP Toolbox is to solve nonconvex optimal control problems of
+The goal of the SCP Toolbox is to solve *nonconvex* optimal control problems of
 the following form:
 
 {% latex display %}
@@ -39,24 +41,26 @@ the following form:
 
 {% latexmm %} This is known as a "template" optimal control problem because it
 defines a whole family of problems that can be solved by the SCP Toolbox. Note
-that the SCP Toolbox is capable of solving even more general problems as
-described in the recent [comprehensive tutorial
-paper](https://arxiv.org/abs/2106.09125).
+that the SCP Toolbox is capable of solving much more general problems as
+described in the previously mentioned [tutorial
+paper](https://arxiv.org/abs/2106.09125). To keep this introductory post
+reasonably simple and to-the-point, I'll only talk explicitly about problems of
+the form \eqref{eq:ocpcost}--\eqref{eq:ocpend}.
 
-Let's define the elements of \eqref{eq:ocpcost}-\eqref{eq:ocpend}. The
-vectors $x(t)\in\reals^{n_x}$, $u(t)\in\reals^{n_u}$, and $p\in\reals^{n_p}$
-represent the state, input, and other (static) parameters. The function
-$\Gamma:\reals^{n_x}\times\mathbb R^{n_u}\to\reals$ is the running cost, which
-has to be convex. The vector function
+Let's define the elements of this optimal control problem. The vectors
+$x(t)\in\reals^{n_x}$, $u(t)\in\reals^{n_u}$, and $p\in\reals^{n_p}$ represent
+the state, input, and other "static" (in other words, time-independent)
+parameters. The function $\Gamma:\reals^{n_x}\times\mathbb R^{n_u}\to\reals$ is
+the running and has to be convex. The vector function
 $s:\mathbb R^{n_x}\times\reals^{n_u}\times\reals^{n_p}\to\reals^{n_s}$ defines
 the path constraints, which can be nonconvex. Finally, the vector functions
-$g_{ic}:\mathbb R^{n_x}\times\reals^{n_u}\times\reals^{n_p}\to\reals^{n_{ic}}$
-and
-$g_{tc}:\mathbb R^{n_x}\times\reals^{n_u}\times\reals^{n_p}\to\reals^{n_{tc}}$
-denote the initial and terminal boundary conditions, which can also be
-nonconvex. Importantly, note that the trajectory evolves on a "normalized" time
-interval $[0,1]$. This means that the user has to convert their problem's
-"absolute" time to this normalized time convention. {% endlatexmm %}
+$g_{ic}:\mathbb R^{n_x}\times\reals^{n_p}\to\reals^{n_{ic}}$ and
+$g_{tc}:\mathbb R^{n_x}\times\reals^{n_p}\to\reals^{n_{tc}}$ denote the initial
+and terminal boundary conditions, which can also be nonconvex. Importantly,
+note that the trajectory evolves on a "normalized" time interval $[0,1]$. This
+means that the user has to convert their problem's "absolute" time to this
+normalized time convention. We will discuss this nuance explicitly when it
+comes to implementing the Dubin's car problem. {% endlatexmm %}
 
 ## Why Another Toolbox?
 
@@ -67,67 +71,69 @@ nonconvex trajectory problems. These include
 [`OCS2`](https://github.com/leggedrobotics/ocs2),
 [`COSMO.jl`](https://github.com/oxfordcontrol/COSMO.jl),
 [`CasADi`](https://web.casadi.org/), and
-[`GPOPS-II`](https://www.gpops2.com/). The tools solve a variant of the optimal
-control problem \eqref{eq:ocpcost}-\eqref{eq:ocpend}. Some of the tools
-target a real-time implementation (such as `OCS2`) while others are oriented
-towards an accurate but not real-time solution (such as `GPOPS-II`). Perhaps
-even more importantly, tools like `GPOPS-II` implement algorithms that are
-generally not aimed at real-time performance, while tools like
-`TrajectoryOptimization.jl` implement algorithms that can perform in real-time
-using an optimized implemenetation in a compiled language like C++.
+[`GPOPS-II`](https://www.gpops2.com/). All of these tools solve some close or
+distance relative of the optimal control problem
+\eqref{eq:ocpcost}-\eqref{eq:ocpend}. Some of the tools target a real-time
+implementation (such as `OCS2`) while others are oriented towards an accurate
+but not real-time solution (such as `GPOPS-II`). Perhaps even more importantly,
+tools like `GPOPS-II` implement algorithms that are generally not aimed at
+real-time performance, while tools like `TrajectoryOptimization.jl` implement
+algorithms that can perform in real-time using an optimized implemenetation in
+a compiled language like C++.
 
 The contribution of the SCP Toolbox is to provide a high-level parser-solver
 interface for a suite of promising new algorithms that are not accessible using
 existing tools. These algorithms are:
 - Lossless convexification (also known as LCvx, see the paper by [Acikmese and
-  Ploen, 2007](https://arc.aiaa.org/doi/abs/10.2514/1.27553?journalcode=jgcd))
+  Ploen, 2007](https://arc.aiaa.org/doi/abs/10.2514/1.27553?journalcode=jgcd)).
 - Successive convexification (also known as SCvx, see the paper by [Mao et al.,
-  2019](https://arxiv.org/abs/1804.06539))
+  2019](https://arxiv.org/abs/1804.06539)).
 - Penalized Trust Region method (also known as PTR, see the paper by [Szmuk et
-  al., 2019](https://arc.aiaa.org/doi/abs/10.2514/1.G004549))
+  al., 2019](https://arc.aiaa.org/doi/abs/10.2514/1.G004549)).
 - GuSTO, see the paper by [Bonalli et al.,
-  2019](https://ieeexplore.ieee.org/document/8794205)
+  2019](https://ieeexplore.ieee.org/document/8794205).
 
 {% endlatexmm %}
 
-Under the hood, the algorithms use some user-selected convex optimizer, for
-example an Interior Point Method-based optimizer like
-[ECOS](https://github.com/embotech/ecos). LCvx is a "vanilla" convex
-optimization in the sense that the optimizer is only called either once or a
-pre-determined (small) number of times{% footnote The LCvx algorithm is quite
-different to the other three algorithms, which are SCP methods. Hence it sits a
-little awkwardly in an "SCP Toolbox", but it is included anyway due to being
-part of the [tutorial paper](https://arxiv.org/abs/2106.09125) from which the
-SCP Toolbox originated. Just keep in mind that the descriptions in this post
-apply to the SCP algorithms, while LCvx sits apart from that code (for example,
-the LCvx examples do not use the SCP parser interface). %}. The latter three
-algorithms are known as SCP methods, and they call the optimizer as part of a
-trust region optimization method. All four algorithms are capable of real-time
-performance, as demonstrated in [Scharf et al.,
-2017](http://dx.doi.org/10.2514/1.g000399), [Dueri et al.,
-2017](http://dx.doi.org/10.2514/1.g001480), and [Reynolds et al,
-2020](http://dx.doi.org/10.2514/6.2020-0844). While the SCP Toolbox does solve
-problems quickly (on the order of seconds), it is aimed at providing a generic,
-clean, and transparent implementation of the algorithms. Real-time
-implementations tend to be terse and exploit specific problem structure --
-therefore the SCP Toolbox trades some performance for clarity and generality of
-implementation.
+Under the hood these algorithms use some user-selected convex optimizer, for
+example an Interior Point Method-based solver like
+[`ECOS`](https://github.com/embotech/ecos). LCvx is a "vanilla" convex
+optimization algorithm in the sense that the solver is called either once or
+some pre-determined (small) number of times{% footnote The LCvx algorithm is
+quite different to the other three algorithms, which are SCP methods. Hence it
+sits a little awkwardly in an "SCP Toolbox", but it is included anyway due to
+being part of the [tutorial paper](https://arxiv.org/abs/2106.09125) from which
+the SCP Toolbox originated. Just keep in mind that the descriptions in this
+post apply to the SCP algorithms, while LCvx kind of "sits apart" from that
+code (for example, the LCvx examples do not use the SCP "parser interface"
+discussed in this post). %}. The latter three algorithms are known as SCP
+methods, and they call the optimizer as part of a trust region optimization
+method. All four algorithms are capable of real-time performance, as
+demonstrated in [Scharf et al., 2017](http://dx.doi.org/10.2514/1.g000399),
+[Dueri et al., 2017](http://dx.doi.org/10.2514/1.g001480), and [Reynolds et
+al., 2020](http://dx.doi.org/10.2514/6.2020-0844). While the SCP Toolbox does
+solve problems quickly (on the order of seconds), it is first and foremost
+aimed at providing a generic, clean, and transparent implementation of the
+algorithms. Real-time implementations, unfortunately, tend to be terse and
+non-generic because they exploit specific problem structure. Therefore the SCP
+Toolbox trades some performance in favor of clarity and generality.
 
 The theoretical guarantees and computational speed offered by convex
-optimization have made the four algorithms popular in both research and
+optimization have made LCvx and SCP algorithms popular in both research and
 industry circles. LCvx, SCvx, and PTR have all been used in projects for NASA
 and Masten Space Systems, resulting in [Xombie rocket flight
 tests](https://www.youtube.com/watch?v=PzHaWc5n70A) and a [Blue Origin
 experimental
 flight](https://www.nasa.gov/directorates/spacetech/NASA_Tipping_Point_Partnership_to_Test_Precision_Lunar_Landing_Tech). The
-algorithms were also applied independently in research domain to problems
-relevant for SpaceX rockets. In robotics, all three SCP methods were used to
-control quadrotors and microgravity flying assistant robots. To summarize:
+algorithms were also applied independently to research problems relevant for
+SpaceX rockets, such as the Starship landing flip maneuver. In robotics, all
+three SCP methods were used to control quadrotors and microgravity flying
+assistant robots. To summarize:
 
 > *The purpose of releasing the SCP Toolbox is to provide public
 > implementations of lossless convexification and sequential convex programming
-> algorithms that have seen marked success in modern nonconvex trajectory
-> research and development -- especially in aerospace and robotics.*
+> algorithms that have had marked success in modern nonconvex trajectory
+> research and development.*
 
 ## Installation
 
@@ -751,7 +757,7 @@ option is provided in the comments of the `Parameters` structure):
   process. %}.
 - `options`: a dictionary of options that the solver accepts. In the above
   code, I set a `verbose` flag to prevent the
-  [ECOS](https://github.com/embotech/ecos) solver from printing out its
+  [`ECOS`](https://github.com/embotech/ecos) solver from printing out its
   solution process every time that it is called.
 
 {% endlatexmm %}

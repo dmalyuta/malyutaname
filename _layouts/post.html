@@ -134,11 +134,11 @@ layout: default
        let window_top = $(window).scrollTop();
        let new_navbar_margin_top = navbar_margin_top+window_top;
        navbar_div.css("margin-top", new_navbar_margin_top);
+       console.log(window_top);
        // See if current window is "too short" for the update
        let navbar_bot = navbar_div.offset().top+navbar_div.height();
        let article_bot = $("article").offset().top+$("article").height();
        let dy_adjust = article_bot-navbar_bot;
-       console.log(navbar_bot, article_bot, dy_adjust);
        if (dy_adjust<0) {
          new_navbar_margin_top += dy_adjust;
          navbar_div.css("margin-top", new_navbar_margin_top);
